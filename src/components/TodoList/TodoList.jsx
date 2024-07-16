@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { v4 as uuidv4 } from "uuid";
 import AddTodo from '../AddTodo/AddTodo'
 import Todo from '../Todo/Todo'
+import styles from './TotoList.module.css';
 
-function TodoList({filter}) {
+function TodoList({filter, darkMode}) {
   const [todos, setTodos] = useState([
     {
       id:uuidv4(),
@@ -31,8 +32,11 @@ function TodoList({filter}) {
   }
 
   const handleEdit = (edited) => {
-    console.log(edited)
-    setTodos(todos.map(todo => todo.id === edited.id ? {...todo, edit: !todo.edit, text: edited.text} : todo))
+    setTodos(todos.map(todo => todo.id === edited.id ? {...todo, edit: !todo.edit} : todo))
+  }
+
+  const handleInput = (editInput) => {
+    setTodos(todos.map(todo => todo.id === editInput.id ? {...todo, edit: !todo.edit, text : editInput.text} : todo))
   }
 
   const handleDelete = (deleted) => {
@@ -49,8 +53,8 @@ function TodoList({filter}) {
 
   return (
     <>
-      <section>
-        <ul>
+      <section className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
+        <ul className={styles.list}>
           {filterTodo.map((item, uu) => (
             <Todo
               key={uuidv4()}
@@ -58,11 +62,12 @@ function TodoList({filter}) {
               onUpdate={handleUpdate}
               onDelete={handleDelete}
               onEdit={handleEdit}
+              onInput={handleInput}
             />
           ))}
         </ul>
       </section>
-      <AddTodo onAdd={handleAdd}/>
+      <AddTodo onAdd={handleAdd} darkMode={darkMode} />
     </>
   );
 }

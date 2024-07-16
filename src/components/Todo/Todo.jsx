@@ -1,10 +1,10 @@
 import React, {useRef, useState} from 'react';
 import { FaTrashAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import styles from "./Todo.module.css";
 
-function Todo({todo, onDelete, onUpdate, onEdit}) {
+function Todo({todo, onDelete, onUpdate, onEdit, onInput}) {
   const {text, status, id} = todo;
-  const [edit, setEdit] = useState(false);
   const textRef = useRef('');
 
   const handleCheckChang = (e) => {
@@ -14,30 +14,41 @@ function Todo({todo, onDelete, onUpdate, onEdit}) {
 
   const handleEditChange = (e) => {
     if(todo.status !== 'completed' ){
-      setEdit((prev) =>!prev)
-      onEdit({...todo, text: textRef.current.value});
-      console.log(textRef.current.value)
+      onEdit({...todo, edit: !todo.edit})
     }
+  }
+
+  const handleInputChange = (e) => {
+    onInput({...todo, edit: !todo.edit, text : textRef.current.value});
   }
 
   const handleDelete = () => onDelete(todo)
 
   return (
-    <li>
-      <input
-        type="checkbox"
-        id='checkbox'
-        checked={status === 'completed'}
-        onChange={handleCheckChang}/>
-      {
-        todo.edit
-        ?
-        <input type="text" defaultValue={text} ref={textRef}/>
-        :
-        <label htmlFor="checkbox">{text}</label>
+    <li className={styles.todo}>
+      {todo.edit
+          ?
+          <input type="text" className={styles.input} defaultValue={text} ref={textRef}/>
+          :
+          <>
+            <input
+              className={styles.checkbox}
+              type="checkbox"
+              id='checkbox'
+              checked={status === 'completed'}
+              onChange={handleCheckChang}
+            />
+            <label htmlFor='checkbox' className={styles.text}>
+              {text}
+            </label>
+          </>
       }
-      <button onClick={handleEditChange}><MdEdit/></button>
-      <button onClick={handleDelete}><FaTrashAlt/></button>
+  <span className={styles.icon}>
+          <button className={styles.button} onClick={todo.edit ? handleInputChange : handleEditChange}><MdEdit/></button>
+        </span>
+        <span className={styles.icon}>
+          <button className={styles.button} onClick={handleDelete}><FaTrashAlt/></button>
+        </span>
     </li>
   );
 }
