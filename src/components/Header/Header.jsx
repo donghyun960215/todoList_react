@@ -3,7 +3,7 @@ import styles from './Header.module.css';
 import { HiMoon, HiSun } from "react-icons/hi";
 import {useDarkMode} from "../context/DarkModeContext";
 
-function Header({filter,filters,onFilterChange, onDarkMode}) {
+function Header({filter,filters,onFilterChange}) {
   const {darkMode, toggleDarkMode} = useDarkMode();
 
 

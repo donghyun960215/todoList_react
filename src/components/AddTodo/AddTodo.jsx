@@ -5,7 +5,6 @@ import {useDarkMode} from "../context/DarkModeContext";
 
 function AddTodo({onAdd}) {
   const [text, setText] = useState('');
-  const {darkMode, toggleDarkMode} = useDarkMode();
   const handleChange = (e) => setText(e.target.value)
 
   const handleSubmit = (e) => {
