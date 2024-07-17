@@ -1,24 +1,19 @@
 import React from 'react';
 import styles from './Header.module.css';
-import { FaMoon } from "react-icons/fa6";
-import { FaRegSun } from "react-icons/fa";
+import { HiMoon, HiSun } from "react-icons/hi";
+import {useDarkMode} from "../context/DarkModeContext";
 
-function Header({filter,filters,onFilterChange, onDarkMode, darkMode}) {
+function Header({filter,filters,onFilterChange, onDarkMode}) {
+  const {darkMode, toggleDarkMode} = useDarkMode();
 
-  const handleDarkMode = () => {
-    onDarkMode((prev)=> !prev);
-    console.log(onDarkMode)
-  }
 
   return (
-    <header className={`${styles.header} ${darkMode ? styles.darkMode : ''}`}>
+    <header className={styles.header}>
+      <button onClick={toggleDarkMode} className={styles.toggle}>
+        {darkMode && <HiSun/>}
+        {!darkMode && <HiMoon/>}
+      </button>
 
-      {
-        darkMode ?
-          <button onClick={handleDarkMode}><FaRegSun/></button>
-          :
-          <button onClick={handleDarkMode}><FaMoon/></button>
-      }
       <ul className={styles.filters}>
         {filters.map((value, index) => (
           <li key={index}>

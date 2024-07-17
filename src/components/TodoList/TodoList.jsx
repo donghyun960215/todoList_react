@@ -3,8 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import AddTodo from '../AddTodo/AddTodo'
 import Todo from '../Todo/Todo'
 import styles from './TotoList.module.css';
+import {useDarkMode} from "../context/DarkModeContext";
 
-function TodoList({filter, darkMode}) {
+function TodoList({filter}) {
+  const {darkMode, toggleDarkMode} = useDarkMode();
   const [todos, setTodos] = useState([
     {
       id:uuidv4(),
@@ -53,7 +55,7 @@ function TodoList({filter, darkMode}) {
 
   return (
     <>
-      <section className={`${styles.container} ${darkMode ? styles.darkMode : ''}`}>
+      <section className={styles.container}>
         <ul className={styles.list}>
           {filterTodo.map((item, uu) => (
             <Todo

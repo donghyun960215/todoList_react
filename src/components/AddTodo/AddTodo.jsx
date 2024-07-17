@@ -1,10 +1,11 @@
 import React,{useState} from 'react';
 import { v4 as uuidv4 } from "uuid";
 import styles from './AddTodo.module.css';
+import {useDarkMode} from "../context/DarkModeContext";
 
-function AddTodo({onAdd, darkMode}) {
+function AddTodo({onAdd}) {
   const [text, setText] = useState('');
-
+  const {darkMode, toggleDarkMode} = useDarkMode();
   const handleChange = (e) => setText(e.target.value)
 
   const handleSubmit = (e) => {
@@ -22,7 +23,7 @@ function AddTodo({onAdd, darkMode}) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={`${styles.form} ${darkMode ? styles.darkMode : ''}`}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       <input
         className={styles.input}
         type="text"
